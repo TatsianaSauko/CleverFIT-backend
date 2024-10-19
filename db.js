@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config(); // Загружаем переменные окружения из .env файла
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb+srv://miljanzowa:jJZIaehC25K0IA8d@cluster0.kwkzz.mongodb.net/Cleverfit?retryWrites=true&w=majority&appName=Cluster0');
+        await mongoose.connect(process.env.MONGO_URI); // Используем переменную окружения
         console.log('MongoDB connected');
     } catch (error) {
         console.error('MongoDB connection error:', error);
@@ -11,5 +14,3 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-
-
