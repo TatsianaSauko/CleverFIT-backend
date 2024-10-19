@@ -6,6 +6,9 @@ const connectDB = require('./db');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const emailRoutes = require('./routes/email');
+const feedbackRoutes = require('./routes/feedback');
+const uploadImageRoutes = require('./routes/upload-image');
+const path = require('path');
 
 
 const app = express();
@@ -32,6 +35,9 @@ app.use(function (req, res, next) {
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/auth', emailRoutes);
+app.use('/feedback', feedbackRoutes);
+app.use('/upload-image', uploadImageRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
