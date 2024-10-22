@@ -8,6 +8,8 @@ const userRoutes = require('./routes/user');
 const emailRoutes = require('./routes/email');
 const feedbackRoutes = require('./routes/feedback');
 const uploadImageRoutes = require('./routes/upload-image');
+const trainingRoutes = require('./routes/training');
+const catalogRoutes = require('./routes/catalogs');
 const path = require('path');
 
 
@@ -38,6 +40,8 @@ app.use('/auth', emailRoutes);
 app.use('/feedback', feedbackRoutes);
 app.use('/upload-image', uploadImageRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/training', trainingRoutes);
+app.use('/catalogs', catalogRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
