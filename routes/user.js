@@ -74,7 +74,7 @@ router.post('/change-password', async (req, res) => {
 
 // Маршрут для обновления данных пользователя
 router.put('/', authenticateToken, async (req, res) => {
-    const { email, password, firstName, lastName, birthday, imgSrc, readyForJointTraining } = req.body;
+    const { email, password, firstName, lastName, birthday, imgSrc, readyForJointTraining, sendNotification } = req.body;
 
     try {
         const updateData = {
@@ -84,6 +84,7 @@ router.put('/', authenticateToken, async (req, res) => {
             birthday,
             imgSrc,
             readyForJointTraining,
+            sendNotification,
         };
 
         // Обновление пароля, если он передан
@@ -109,6 +110,7 @@ router.put('/', authenticateToken, async (req, res) => {
             birthday: user.birthday,
             imgSrc: user.imgSrc,
             readyForJointTraining: user.readyForJointTraining,
+            sendNotification: user.sendNotification,
         });
     } catch (error) {
         console.error('Ошибка обновления данных пользователя:', error);
