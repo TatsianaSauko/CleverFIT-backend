@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const { StatusCodes } = require('http-status-codes');
-const { Invite, toResponse } = require('./invite.model');
+const { Invite, toResponse } = require('../models/invite');
 const authenticateToken = require('../middleware/authenticateToken');
-const InviteService = require('./invite.service');
+const InviteService = require('../services/invite');
 const { ErrorHandler, catchErrors } = require('../../common/error');
 // const { ERRORS, MESSAGES } = require('../../common/constants');
 
