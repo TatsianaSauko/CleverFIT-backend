@@ -1,4 +1,6 @@
-const { INTERNAL_SERVER_ERROR, getStatusText } = require('http-status-codes');
+const {
+	StatusCodes,
+} = require('http-status-codes');
 
 class ErrorHandler extends Error {
   constructor(statusCode, message) {
@@ -11,8 +13,8 @@ class ErrorHandler extends Error {
 const handleError = (err, res) => {
   let { statusCode, message } = err;
   if (!(err instanceof ErrorHandler)) {
-    statusCode = INTERNAL_SERVER_ERROR;
-    message = getStatusText(INTERNAL_SERVER_ERROR);
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    message = getStatusText(StatusCodes.INTERNAL_SERVER_ERROR);
   }
 
   res.status(statusCode).send(message);
