@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-class UserService {
+class AuthService {
     async registrationService(email, password) {
         try {
             let user = await User.findOne({ email });
@@ -71,4 +71,4 @@ class UserService {
     }
 }
 
-exports.module = new UserService(); 
+exports.module = new AuthService(); 
