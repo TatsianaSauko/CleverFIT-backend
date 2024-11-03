@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const trainingList = require("../helpers/catalog");
+const trainingList = require("../helpers/catalogHelpers");
 
 class CatalogService {
     async getTrainingListService(authorizationHeaderString) {
