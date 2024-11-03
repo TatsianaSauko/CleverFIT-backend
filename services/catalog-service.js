@@ -1,7 +1,6 @@
-const dotenv = require('dotenv');
-dotenv.config();
+const { StatusCodes } = require('http-status-codes');
 
-const trainingList = require("../helpers/catalogHelpers");
+const trainingList = require('../helpers/catalogHelpers');
 
 class CatalogService {
     async getTrainingListService(authorizationHeaderString) {
@@ -9,22 +8,22 @@ class CatalogService {
             // Проверка наличия авторизационного заголовка
             if (!authorizationHeaderString) {
                 return {
-                    statusCode: 403,
+                    statusCode: StatusCodes.FORBIDDEN,
                     error: 'Forbidden',
                     message: 'Отсутствует заголовок Authorization или токен не действителен.',
                 };
             }
 
             return {
-                statusCode: 200,
+                statusCode: StatusCodes.OK,
                 trainingList: trainingList
             }
-    
+
         } catch (error) {
             console.error('Ошибка при получении списка тренировок:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера.',
             };
@@ -33,4 +32,4 @@ class CatalogService {
 
 }
 
-exports.module = new CatalogService(); 
+exports.module = new CatalogService();

@@ -1,5 +1,4 @@
-const dotenv = require('dotenv');
-dotenv.config();
+const { StatusCodes } = require('http-status-codes');
 
 const User = require('../models/user');
 
@@ -10,14 +9,14 @@ class ImageService {
             const user = await User.findByIdAndUpdate(userID, { imgSrc: imgUrl }, { new: true });
             if (!user) {
                 return {
-                    statusCode: 404,
+                    statusCode: StatusCodes.NOT_FOUND,
                     error: 'Not Found',
                     message: 'Пользователь не найден'
                 };
             }
-    
+
             return {
-                statusCode: 200,
+                statusCode: StatusCodes.OK,
                 name: filename,
                 url: imgUrl,
             };
@@ -25,7 +24,7 @@ class ImageService {
             console.error('Ошибка обновления изображения:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -33,4 +32,4 @@ class ImageService {
     }
 }
 
-exports.module = new ImageService(); 
+exports.module = new ImageService();

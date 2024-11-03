@@ -1,4 +1,6 @@
-const authService = require("../services/auth-service");
+const { StatusCodes } = require('http-status-codes');
+
+const authService = require('../services/auth-service');
 
 class AuthController {
     async registration(request, response, next) {
@@ -16,7 +18,7 @@ class AuthController {
 
         const registrationStatus = await authService.module.loginService(email, password);
 
-        if(registrationStatus.statusCode === 200) {
+        if(registrationStatus.statusCode === StatusCodes.OK) {
             return response
                 .status(registrationStatus.statusCode)
                 .json(registrationStatus.accessToken);

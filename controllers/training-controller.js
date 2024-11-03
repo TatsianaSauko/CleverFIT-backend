@@ -1,11 +1,13 @@
-const trainingService = require("../services/training-service");
+const { StatusCodes } = require('http-status-codes');
+
+const trainingService = require('../services/training-service');
 
 class TrainingController {
     // GET /training - Получение всех персональных тренировок
     async getTrainingData(request, response, next) {
         const gettingTrainingDataStatus = trainingService.module.gettingTrainingDataService(request.user.id);
 
-        if(gettingTrainingDataStatus.statusCode === 200) {
+        if(gettingTrainingDataStatus.statusCode === StatusCodes.OK) {
             return response
                 .status(gettingTrainingDataStatus.statusCode)
                 .json(gettingTrainingDataStatus.data);
@@ -21,7 +23,7 @@ class TrainingController {
 
         const sendingTrainingDataStatus = trainingService.module.sendingTrainingDataService(name, date, exercises, parameters, request.user.id, isImplementation);
 
-        if(sendingTrainingDataStatus.statusCode === 200) {
+        if(sendingTrainingDataStatus.statusCode === StatusCodes.OK) {
             return response
                 .status(sendingTrainingDataStatus.statusCode)
                 .json(sendingTrainingDataStatus.data);

@@ -1,5 +1,4 @@
-const dotenv = require('dotenv');
-dotenv.config();
+const { StatusCodes } = require('http-status-codes');
 
 const Training = require('../models/training');
 
@@ -8,16 +7,16 @@ class TrainingService {
         try {
             // Ищем все тренировки, которые принадлежат текущему авторизованному пользователю
             const trainings = await Training.find({ userId: userID });
-            
+
             return {
-                statusCode: 200, 
+                statusCode: StatusCodes.OK,
                 data: trainings
             }
         } catch (error) {
             console.error('Ошибка при получении тренировок:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера',
             };
@@ -29,12 +28,14 @@ class TrainingService {
             // Проверка обязательных полей
             if (!name || !date || !exercises || exercises.length === 0) {
                 return {
-                    statusCode: 400,
+                    statusCode: StatusCodes.BAD_REQUEST,
                     error: 'Bad Request',
                     message: 'Обязательные поля: name, date, exercises',
                 };
             }
-    
+
+            const mockPeriodParameters = 7;
+
             // Создаем объект тренировки
             const newTraining = new Training({
                 name,
@@ -42,7 +43,7 @@ class TrainingService {
                 isImplementation: isImplementation || false,
                 parameters: {
                     repeat: parameters?.repeat || false,
-                    period: parameters?.period || 7,
+                    period: parameters?.period || mockPeriodParameters,
                     jointTraining: parameters?.jointTraining || false,
                     participants: parameters?.participants || [],
                 },
@@ -55,27 +56,27 @@ class TrainingService {
                 })),
                 userId: userID, // связываем тренировку с пользователем
             });
-    
+
             // Сохранение тренировки в базе данных
             const savedTraining = await newTraining.save();
-    
+
             return {
-                statusCode: 200,
+                statusCode: StatusCodes.OK,
                 data: savedTraining
             }
         } catch (error) {
             console.error('Ошибка при создании тренировки:', error);
-    
+
             if (error.code === 11000) { // Обработка конфликта данных
                 return {
-                    statusCode: 409,
+                    statusCode: StatusCodes.CONFLICT,
                     error: 'Conflict',
                     message: 'Конфликт данных, такая тренировка уже существует',
                 };
             }
-    
+
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера',
             };
@@ -83,4 +84,4 @@ class TrainingService {
     }
 }
 
-exports.module = new TrainingService(); 
+exports.module = new TrainingService();

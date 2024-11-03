@@ -14,9 +14,10 @@ const trainingRoutes = require('./routes/training');
 const catalogRoutes = require('./routes/catalogs');
 const path = require('path');
 
-
 const app = express();
-const PORT = process.env.PORT || 5000;
+
+const mockPort = 5000;
+const PORT = process.env.PORT || mockPort;
 
 connectDB();
 
@@ -28,8 +29,8 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', "http://localhost:3000");
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Headers', true);
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');

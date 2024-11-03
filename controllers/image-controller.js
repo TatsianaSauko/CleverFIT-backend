@@ -1,13 +1,14 @@
-// const feedbackService = require("../services/feedback-service");
-const imageService = require("../services/image-service");
+const { StatusCodes } = require('http-status-codes');
+
+const imageService = require('../services/image-service');
 
 class ImageController {
     async uploadImage(request, response, next) {
         if (!request.file) {
             return response
-                .status(400)
+                .status(StatusCodes.BAD_REQUEST)
                 .json({
-                    statusCode: 400,
+                    statusCode: StatusCodes.BAD_REQUEST,
                     error: 'Bad Request',
                     message: 'Файл не был загружен'
                 });
@@ -17,7 +18,7 @@ class ImageController {
 
         const uploadImageStatus = imageService.module.uploadImageService(request.user.id, imgUrl, request.file.filename);
 
-        if(uploadImageStatus.statusCode === 200) {
+        if(uploadImageStatus.statusCode === StatusCodes.OK) {
             return response
                 .status(uploadImageStatus.statusCode)
                 .json({
@@ -25,7 +26,7 @@ class ImageController {
                     url: uploadImageStatus.imgUrl,
                 });
         }
-        
+
         response
             .status(uploadImageStatus.statusCode)
             .json(uploadImageStatus);

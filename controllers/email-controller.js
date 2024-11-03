@@ -1,4 +1,6 @@
-const emailService = require("../services/email-service");
+const { StatusCodes } = require('http-status-codes');
+
+const emailService = require('../services/email-service');
 
 class EmailController {
     // Маршрут для проверки email и отправки временного кода
@@ -17,7 +19,7 @@ class EmailController {
 
         const confirmEmailStatus =  emailService.module.confirmEmailService(email, code);
 
-        if(confirmEmailStatus.statusCode === 200) {
+        if(confirmEmailStatus.statusCode === StatusCodes.OK) {
             response.cookie('emailVerified', true, { httpOnly: true });
             response.cookie('userEmail', email, { httpOnly: true });
 

@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-dotenv.config();
+const { StatusCodes } = require('http-status-codes');
+const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
@@ -8,12 +8,12 @@ class FeedbackService {
         try {
             const user = await User.findById(userId).select('-password');
             return {
-                statusCode: 200,
+                statusCode: StatusCodes.OK,
                 data: user
             }
         } catch (error) {
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -22,7 +22,7 @@ class FeedbackService {
 
     async changePasswordService(password, userEmail) {
         try {
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword = await bcrypt.hash(password, process.env.HASH_SALT);
             const user = await User.findOneAndUpdate(
                 { email: userEmail },
                 { password: hashedPassword },
@@ -30,21 +30,21 @@ class FeedbackService {
             );
             if (!user) {
                 return {
-                    statusCode: 404,
+                    statusCode: StatusCodes.NOT_FOUND,
                     error: 'Not Found',
                     message: 'Пользователь не найден'
                 };
             }
-    
+
             return {
-                statusCode: 201, 
+                statusCode: StatusCodes.CREATED,
                 message: 'Пароль успешно изменен'
             };
         } catch (error) {
             console.error('Ошибка изменения пароля:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -55,21 +55,21 @@ class FeedbackService {
         try {
             // Обновление пароля, если он передан
             if (password) {
-                const salt = await bcrypt.genSalt(10);
+                const salt = await bcrypt.genSalt(process.env.HASH_SALT);
                 updateData.password = await bcrypt.hash(password, salt);
             }
-    
+
             const user = await User.findByIdAndUpdate(userID, updateData, { new: true });
             if (!user) {
                 return {
-                    statusCode: 404,
+                    statusCode: StatusCodes.NOT_FOUND,
                     error: 'Not Found',
                     message: 'Пользователь не найден'
                 };
             }
-    
+
             return {
-                statusCode: 200,
+                statusCode: StatusCodes.CREATED,
                 data: {
                     email: user.email,
                     firstName: user.firstName,
@@ -84,7 +84,7 @@ class FeedbackService {
             console.error('Ошибка обновления данных пользователя:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -92,4 +92,4 @@ class FeedbackService {
     }
 }
 
-exports.module = new FeedbackService(); 
+exports.module = new FeedbackService();

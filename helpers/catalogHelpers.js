@@ -7,4 +7,4 @@ const trainingList = [
     { name: 'Грудь', key: 'chest' },
 ];
 
-module.exports = trainingList; 
+module.exports = trainingList;

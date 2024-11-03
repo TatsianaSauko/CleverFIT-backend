@@ -3,7 +3,7 @@ const router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
 
-const UserController = require("../controllers/user-controller");
+const UserController = require('../controllers/user-controller');
 const authenticateToken = require('../middleware/authenticateToken');
 
 router.get('/me', authenticateToken, UserController.getUserData);

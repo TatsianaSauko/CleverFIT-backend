@@ -1,5 +1,4 @@
-const dotenv = require('dotenv');
-dotenv.config();
+const { StatusCodes } = require('http-status-codes');
 const crypto = require('crypto');
 
 const User = require('../models/user');
@@ -12,16 +11,16 @@ class EmailService {
             const user = await User.findOne({ email });
             if (!user) {
                 return {
-                    statusCode: 404,
+                    statusCode: StatusCodes.NOT_FOUND,
                     error: 'Not Found',
                     message: 'Пользователь с таким email не найден'
                 };
             }
-    
+
             // Генерация временного кода
             const tempCode = crypto.randomBytes(3).toString('hex');
             tempCodes[email] = tempCode; // Store the code
-    
+
             // Определение mailOptions
             const mailOptions = {
                 from: 'tankacav@gmail.com',
@@ -29,28 +28,28 @@ class EmailService {
                 subject: 'Код для подтверждения email',
                 text: `Ваш временный код: ${tempCode}`
             };
-    
+
             // Отправка временного кода на email
             transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
                     console.error('Ошибка отправки email:', error);
                     return {
-                        statusCode: 500,
+                        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                         error: 'Internal Server Error',
                         message: 'Ошибка отправки email'
                     };
-                } else {
+                }
                     return {
-                        statusCode: 200,
+                        statusCode: StatusCodes.OK,
                         message: 'Код отправлен на email',
                         email: email,
                     };
-                }
+
             });
         } catch (error) {
             console.error('Ошибка проверки email:', error);
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -62,28 +61,28 @@ class EmailService {
             const storedCode = tempCodes[email];
             if (!storedCode || storedCode !== code) {
                 return {
-                    statusCode: 400,
+                    statusCode: StatusCodes.BAD_REQUEST,
                     error: 'Bad Request',
                     message: 'Неверный код'
                 };
             }
-    
+
             // Email подтвержден, можно удалить временный код
             delete tempCodes[email];
-    
+
             // res.cookie('emailVerified', true, { httpOnly: true, secure: true, sameSite: 'None' });
             // res.cookie('userEmail', email, { httpOnly: true, secure: true, sameSite: 'None' });
 
             return {
-                statusCode: 200,
-                message: "Email подтвержден",
+                statusCode: StatusCodes.OK,
+                message: 'Email подтвержден',
                 email: email
             }
         } catch (error) {
             console.error('Ошибка подтверждения email:', error);
 
             return {
-                statusCode: 500,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
                 error: 'Internal Server Error',
                 message: 'Ошибка сервера'
             };
@@ -91,4 +90,4 @@ class EmailService {
     }
 }
 
-exports.module = new EmailService(); 
+exports.module = new EmailService();
