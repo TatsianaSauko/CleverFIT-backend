@@ -1,3 +1,4 @@
+const { StatusCodes } = require('http-status-codes');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
@@ -8,8 +9,8 @@ module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.status(401).json({
-            statusCode: 401,
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+            statusCode: StatusCodes.UNAUTHORIZED,
             error: 'Unauthorized',
             message: 'Токен не предоставлен'
         });
@@ -23,8 +24,8 @@ module.exports = (req, res, next) => {
         next();
     } catch (err) {
         console.error('Ошибка проверки токена:', err);
-        return res.status(401).json({
-            statusCode: 401,
+        return res.status(StatusCodes.UNAUTHORIZED).json({
+            statusCode: StatusCodes.UNAUTHORIZED,
             error: 'Unauthorized',
             message: 'Неверный токен'
         });
