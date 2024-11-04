@@ -2,8 +2,12 @@
 
 Env file content:
 
-# MONGO_URI=
-# JWT_SECRET=
-# HASH_SALT=
-# PORT=
+```bash
+MONGO_URI=
+JWT_SECRET=
+HASH_SALT=
+PORT=
+```
+
+
 
