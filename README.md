@@ -1,8 +1,9 @@
-# CleverFIT API Test
+CleverFIT-backend
 
-Express.js API
+Env file content:
 
-Environment vars:
+#MONGO_URI=
+#JWT_SECRET=
+#HASH_SALT=
+#PORT=
 
-MONGO_URI=
-JWT_SECRET=
