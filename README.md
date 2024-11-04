@@ -1,9 +1,9 @@
-CleverFIT-backend
+# CleverFIT-backend
 
 Env file content:
 
-#MONGO_URI=
-#JWT_SECRET=
-#HASH_SALT=
-#PORT=
+1. MONGO_URI=
+2. JWT_SECRET=
+3. HASH_SALT=
+4. PORT=
 
