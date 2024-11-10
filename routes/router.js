@@ -8,6 +8,7 @@ const FeedbackController = require('../controllers/feedback-controller');
 const TrainingController = require('../controllers/training-controller');
 const ImageController = require('../controllers/image-controller');
 const UserController = require('../controllers/user-controller');
+const InviteController = require('../controllers/invite-controller');
 
 const authenticateToken = require('../middleware/authenticateToken');
 const limiter = require('../helpers/catalogLimiter');
@@ -33,5 +34,8 @@ router.post('/', authenticateToken, upload.single('file'), ImageController.uploa
 router.get('/me', authenticateToken, UserController.getUserData);
 router.post('/change-password', UserController.changePassword); // Маршрут для изменения пароля
 router.put('/', authenticateToken, UserController.updateUserData); // Маршрут для обновления данных пользователя
+
+router.get('/invite', authenticateToken, InviteController.getAll);
+router.post('/invite', authenticateToken, InviteController.create); 
 
 module.exports = router;

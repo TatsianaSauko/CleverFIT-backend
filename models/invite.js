@@ -11,12 +11,12 @@ const InviteSchema = new Schema(
         default: uuid,
         required: true
       },
-      fromUserId: {
+      from: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
        },
-      toUserId: {
+      to: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -28,7 +28,7 @@ const InviteSchema = new Schema(
        },
       status: {
         type: String,
-        default: INVITE_STATUS.WAITING },
+        default: INVITE_STATUS.PENDING },
       createdAt: {
         type: Date,
         required: true },
@@ -37,8 +37,8 @@ const InviteSchema = new Schema(
   );
 
   const toResponse = invite => {
-    const { id, fromUserId, toUserId, trainingId, status, createdAt } = invite;
-    return { id, fromUserId, toUserId, trainingId, status, createdAt };
+    const { id, from, to, trainingId, status, createdAt } = invite;
+    return { id, from, to, trainingId, status, createdAt };
   };
 
   module.exports = {

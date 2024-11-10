@@ -7,7 +7,7 @@ const MESSAGES = {
 };
 
 const INVITE_STATUS = {
-  WAITING: 'Waiting',
+  PENDING: 'Pending',
   ACCEPTED: 'Accepted',
   REJECTED: 'Rejected'
 };
