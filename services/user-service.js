@@ -22,7 +22,7 @@ class FeedbackService {
 
     async changePasswordService(password, userEmail) {
         try {
-            const hashedPassword = await bcrypt.hash(password, process.env.HASH_SALT);
+            const hashedPassword = await bcrypt.hash(password, +process.env.HASH_SALT);
             const user = await User.findOneAndUpdate(
                 { email: userEmail },
                 { password: hashedPassword },
@@ -55,7 +55,7 @@ class FeedbackService {
         try {
             // Обновление пароля, если он передан
             if (password) {
-                const salt = await bcrypt.genSalt(process.env.HASH_SALT);
+                const salt = await bcrypt.genSalt(+process.env.HASH_SALT);
                 updateData.password = await bcrypt.hash(password, salt);
             }
 
