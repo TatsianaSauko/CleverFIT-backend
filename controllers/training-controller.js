@@ -31,7 +31,23 @@ class TrainingController {
 
         response
             .status(sendingTrainingDataStatus.statusCode)
-            .json(sendingTrainingDataStatus);
+            .json(sendingTrainingDataStatus);   
+    }
+
+    async editTrainingData(request, response, next) {
+        const { name, date, exercises, parameters, isImplementation, userId } = request.body;
+
+        const editingTrainingDataStatus = trainingService.module.editTrainingDataService(name, date, exercises, parameters, request.query.trainingId, isImplementation, userId);
+
+        if(editingTrainingDataStatus.statusCode === StatusCodes.OK) {
+            return response
+                .status(editingTrainingDataStatus.statusCode)
+                .json(editingTrainingDataStatus.data);
+        }
+
+        response
+            .status(editingTrainingDataStatus.statusCode)
+            .json(editingTrainingDataStatus); 
     }
 }
 

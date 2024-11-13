@@ -82,6 +82,50 @@ class TrainingService {
             };
         }
     }
+
+    async editTrainingDataService(name, date, exercises, parameters, trainingID, isImplementation, userID) {
+        try {
+            // Проверка обязательных полей
+            if (!name || !date || !exercises || exercises.length === 0) {
+                return {
+                    statusCode: StatusCodes.BAD_REQUEST,
+                    error: 'Bad Request',
+                    message: 'Обязательные поля: name, date, exercises',
+                };
+            }
+
+            const updatedData = {
+                name: name,
+                date: date,
+                isImplementation: isImplementation,
+                userId: userID,
+                parameters: parameters,
+                exercises: exercises
+            }
+
+            const editingTraining = Training.findByIdAndUpdate(trainingID, updatedData);
+            if (!editingTraining) {
+                return {
+                    statusCode: StatusCodes.NOT_FOUND,
+                    error: 'Not Found',
+                    message: 'Тренировка не найдена'
+                };
+            }
+
+            return {
+                statusCode: StatusCodes.OK,
+                data: editingTraining
+            }
+        } catch (error) {
+            console.error('Ошибка при редактировании тренировки:', error);
+
+            return {
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+                error: 'Internal Server Error',
+                message: 'Ошибка сервера',
+            };
+        }
+    }
 }
 
 exports.module = new TrainingService();
