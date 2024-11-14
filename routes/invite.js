@@ -6,25 +6,25 @@ const InviteService = require('../services/invite');
 const { ErrorHandler, catchErrors } = require("../common/error")
 // const { ERRORS, MESSAGES } = require('../../common/constants');
 
-  router
-  .route('/')
-  .get(authenticateToken, catchErrors(async (req, res) => {
-      const invites = await InviteService.getAll();
-      res.json(invites.map(toResponse));
-  }))
-  .post(authenticateToken, catchErrors(async (req, res) => {
-      const { toUserId, trainingId } = req.body;
+  // router
+  // .route('/')
+  // .get(authenticateToken, catchErrors(async (req, res) => {
+  //     const invites = await InviteService.getAll();
+  //     res.json(invites.map(toResponse));
+  // }))
+  // .post(authenticateToken, catchErrors(async (req, res) => {
+  //     const { toUserId, trainingId } = req.body;
 
-      // Проверка наличия обязательных полей
-      if (!toUserId || !trainingId) {
-        return res.status(StatusCodes.BAD_REQUEST).send({ message: 'Поля toUserId и trainingId обязательны!' });
-      }
-      const invite = await InviteService.add(new Invite({
-          toUserId,
-          trainingId
-      }));
-      res.status(StatusCodes.CREATED).send(toResponse(invite));
-  }));
+  //     // Проверка наличия обязательных полей
+  //     if (!toUserId || !trainingId) {
+  //       return res.status(StatusCodes.BAD_REQUEST).send({ message: 'Поля toUserId и trainingId обязательны!' });
+  //     }
+  //     const invite = await InviteService.add(new Invite({
+  //         toUserId,
+  //         trainingId
+  //     }));
+  //     res.status(StatusCodes.CREATED).send(toResponse(invite));
+  // }));
 
 // router
 //   .route('/:inviteId')

@@ -22,7 +22,7 @@ class InviteService {
                 return {
                     statusCode: StatusCodes.BAD_REQUEST,
                     error: ReasonPhrases.BAD_REQUEST,                    
-                    message: 'Поля toUserId и trainingId обязательны!' 
+                    message: 'Поля to и trainingId обязательны!' 
                 };
             }
             const newInvite = new Invite({

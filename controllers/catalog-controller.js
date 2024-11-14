@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 
-const catalogService = require('../services/auth-service');
+const catalogService = require('../services/catalog-service');
 
 class CatalogController {
     // GET /catalogs/training-list - Получение списка тренировок

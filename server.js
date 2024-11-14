@@ -6,7 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./db');
 const router = require('./routes/router');
-const inviteRouter = require('./routes/invite');
+// const inviteRouter = require('./routes/invite');
 const path = require('path');
 
 const app = express();
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api', router);
-app.use('/invite', inviteRouter);
+// app.use('/invite', inviteRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {

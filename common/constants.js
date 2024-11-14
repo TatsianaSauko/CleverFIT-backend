@@ -1,5 +1,7 @@
 const ERRORS = {
-  INVITE_NOT_FOUND: 'Invite not found',
+  BAD_REQUEST: 'Ошибка в запросе',
+  SERVER_ERROR: 'Ошибка сервера',
+  INVITE_FIELD_REQUIRE: 'Поля to и trainingId обязательны!'
 };
 
 const MESSAGES = {
