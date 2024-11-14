@@ -28,6 +28,7 @@ router.get('/', authenticateToken, FeedbackController.getFeedback);
 
 router.get('/training', authenticateToken, TrainingController.getTrainingData); // GET /training - Получение всех персональных тренировок
 router.post('/training', authenticateToken, TrainingController.sendTrainingData);
+router.put('/training', authenticateToken, TrainingController.editTrainingData);
 
 router.post('/', authenticateToken, upload.single('file'), ImageController.uploadImage); // Маршрут для загрузки изображения
 
