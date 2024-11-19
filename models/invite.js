@@ -6,11 +6,11 @@ const INVITE_STATUS = require('../common/constants');
 
 const InviteSchema = new Schema(
     {
-      _id: {
-        type: String,
-        default: uuid,
-        required: true
-      },
+      // _id: {
+      //   type: String,
+      //   default: uuid,
+      //   required: true
+      // },
       from: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -23,7 +23,7 @@ const InviteSchema = new Schema(
        },
       trainingId: {
         type: String,
-        default: uuid,
+        // default: uuid,
         required: true
        },
       status: {
@@ -42,6 +42,6 @@ const InviteSchema = new Schema(
   };
 
   module.exports = {
-    Invite: mongoose.model('invite', InviteSchema),
+    Invite: mongoose.model('Invite', InviteSchema),
     toResponse
   };
