@@ -3,8 +3,6 @@ const { StatusCodes } = require('http-status-codes');
 const { ErrorHandler } = require('../common/error');
 const { ERRORS } = require('../common/constants');
 
-const { toResponse } = require('../models/invite');
-
 const inviteService = require('../services/invite-service');
 
 class InviteController {
@@ -29,6 +27,15 @@ class InviteController {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }
     return res.status(createInvite.statusCode).send(createInvite);
+  }
+
+  async removeInvite(req, res, next) {
+    const removeInvite = await inviteService.module.removeInvite(req.params.inviteId);
+    // Проверка результата
+    if (!removeInvite) {
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.INVITE_NOT_FOUND);
+    }
+    res.status(StatusCodes.NO_CONTENT).send({});
   }
 }
 module.exports = new InviteController();

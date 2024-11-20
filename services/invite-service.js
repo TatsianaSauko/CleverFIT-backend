@@ -10,10 +10,10 @@ class InviteService {
 
     async getAllInvites(userId) {
         const invites = await Invite.find({ from: userId }).exec();
-        // TODO map result
+        // Подготовка данных для ответа
         if(!invites) {
             return {
-                statusCode: StatusCodes.OK,
+                statusCode: StatusCodes.BAD_REQUEST,
                 data: invites
             }
         }
@@ -38,10 +38,10 @@ class InviteService {
             createdAt: new Date()
         });
         const createInvite = await newInvite.save();
-        // TODO map result
+        // Подготовка данных для ответа
         if (!createInvite) {
             return {
-                statusCode: StatusCodes.CREATED,
+                statusCode: StatusCodes.BAD_REQUEST,
                 data: createInvite 
             };
         }
@@ -50,6 +50,11 @@ class InviteService {
             statusCode: StatusCodes.CREATED,
             data: createInviteFullData 
         };
+    }
+
+    async removeInvite(inviteId) {
+        const isDeleted = (await Invite.deleteOne({ _id: inviteId })).ok;
+        return isDeleted;
     }
 
     async prepareResponseData({ _id, from, to, trainingId, status, createdAt }) {
