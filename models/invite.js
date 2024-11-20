@@ -8,7 +8,7 @@ const InviteSchema = new Schema(
     {
       // _id: {
       //   type: String,
-      //   default: uuid,
+      //   // default: uuid,
       //   required: true
       // },
       from: {
@@ -37,8 +37,8 @@ const InviteSchema = new Schema(
   );
 
   const toResponse = invite => {
-    const { id, from, to, trainingId, status, createdAt } = invite;
-    return { id, from, to, trainingId, status, createdAt };
+    const { _id, from, to, trainingId, status, createdAt } = invite;
+    return { _id, from, to, trainingId, status, createdAt };
   };
 
   module.exports = {

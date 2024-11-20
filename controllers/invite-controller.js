@@ -6,17 +6,15 @@ const { ERRORS } = require('../common/constants');
 const { toResponse } = require('../models/invite');
 
 const inviteService = require('../services/invite-service');
-const userService = require('../services/user-service');
-const trainingService = require('../services/training-service');
 
 class InviteController {
 
   async getAllInvites(req, res, next) { 
     const invites = await inviteService.module.getAllInvites(req.user.id);
-    if (!createInvite) {
+    if (!invites) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }  
-    return res.status(getAllInvites.statusCode).json(invites.map(toResponse));
+    return res.status(invites.statusCode).json(invites);
   }
 
   async createInvite(req, res, next) {  
