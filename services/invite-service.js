@@ -11,12 +11,18 @@ class InviteService {
     async getAllInvites(userId) {
         const invites = await Invite.find({ from: userId }).exec();
         // TODO map result
+        if(!invites) {
+            return {
+                statusCode: StatusCodes.OK,
+                data: invites
+            }
+        }
         const invitesFullData = await Promise.all(invites.map(async item => { 
             const prepareData = [];
             prepareData.push(await this.prepareResponseData(item));
             return prepareData;
         }));
-       
+
         return {
             statusCode: StatusCodes.OK,
             data: invitesFullData
@@ -33,9 +39,13 @@ class InviteService {
         });
         const createInvite = await newInvite.save();
         // TODO map result
-        
-        const createInviteFullData = await this.prepareResponseData(createInvite);
-
+        if (!createInvite) {
+            return {
+                statusCode: StatusCodes.CREATED,
+                data: createInvite 
+            };
+        }
+            const createInviteFullData = await this.prepareResponseData(createInvite);
         return {
             statusCode: StatusCodes.CREATED,
             data: createInviteFullData 
