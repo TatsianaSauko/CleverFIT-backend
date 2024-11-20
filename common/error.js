@@ -11,12 +11,12 @@ class ErrorHandler extends Error {
 
 const handleError = (err, res) => {
   let { statusCode, message } = err;
-  let error = getReasonPhrase(statusCode);
+  let error = statusCode ? getReasonPhrase(statusCode) : '';
   
   if (!(err instanceof ErrorHandler)) {
     statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    error = getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR);
-    message = ERRORS.SERVER_ERROR; 
+    error = getReasonPhrase(statusCode);
+    message = message || ERRORS.SERVER_ERROR; 
   }
   res.status(statusCode).send({ statusCode, error, message });
 };
