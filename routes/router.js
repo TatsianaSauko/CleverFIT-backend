@@ -8,10 +8,13 @@ const FeedbackController = require('../controllers/feedback-controller');
 const TrainingController = require('../controllers/training-controller');
 const ImageController = require('../controllers/image-controller');
 const UserController = require('../controllers/user-controller');
+const InviteController = require('../controllers/invite-controller');
 
 const authenticateToken = require('../middleware/authenticateToken');
 const limiter = require('../helpers/catalogLimiter');
 const upload = require('../helpers/image');
+
+const catchErrors = require('../middleware/catchErrors');
 
 router.post('/registration', AuthController.registration); // Маршрут для регистрации
 router.post('/login', AuthController.login); // Маршрут для авторизации
@@ -34,5 +37,8 @@ router.post('/', authenticateToken, upload.single('file'), ImageController.uploa
 router.get('/me', authenticateToken, UserController.getUserData);
 router.post('/change-password', UserController.changePassword); // Маршрут для изменения пароля
 router.put('/', authenticateToken, UserController.updateUserData); // Маршрут для обновления данных пользователя
+
+router.get('/invite', authenticateToken, limiter, catchErrors(InviteController.getAllInvites));
+router.post('/invite', authenticateToken, limiter, catchErrors(InviteController.createInvite)); 
 
 module.exports = router;

@@ -1,4 +1,5 @@
-const { StatusCodes } = require('http-status-codes');
+const { StatusCodes, getReasonPhrase } = require('http-status-codes');
+const { ERRORS } = require('../common/constants');
 
 class ErrorHandler extends Error {
   constructor(statusCode, message) {
@@ -10,25 +11,17 @@ class ErrorHandler extends Error {
 
 const handleError = (err, res) => {
   let { statusCode, message } = err;
+  let error = statusCode ? getReasonPhrase(statusCode) : '';
+  
   if (!(err instanceof ErrorHandler)) {
     statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    message = getStatusText(StatusCodes.INTERNAL_SERVER_ERROR); // 'getStatusText' is not defined 
+    error = getReasonPhrase(statusCode);
+    message = message || ERRORS.SERVER_ERROR; 
   }
-
-  res.status(statusCode).send(message);
-  return { statusCode, message };
-};
-
-const catchErrors = fn => async (req, res, next) => {
-  try {
-    return await fn(req, res, next);
-  } catch (err) {
-    return next(err);
-  }
+  res.status(statusCode).send({ statusCode, error, message });
 };
 
 module.exports = {
   ErrorHandler,
-  handleError,
-  catchErrors
+  handleError
 };
