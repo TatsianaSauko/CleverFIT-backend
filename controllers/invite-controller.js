@@ -12,7 +12,7 @@ class InviteController {
     if (!invites) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }  
-    return res.status(invites.statusCode).json(invites);
+    return res.status(invites.statusCode).json(invites.data);
   }
 
   async createInvite(req, res, next) {  
@@ -26,7 +26,7 @@ class InviteController {
     if (!createInvite) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }
-    return res.status(createInvite.statusCode).send(createInvite);
+    return res.status(createInvite.statusCode).send(createInvite.data);
   }
 
   async removeInvite(req, res, next) {
