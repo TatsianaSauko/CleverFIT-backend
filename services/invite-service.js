@@ -9,7 +9,7 @@ const trainingService = require('../services/training-service');
 class InviteService {
 
     async getAllInvites(userId) {
-        const invites = await Invite.find({ from: userId }).exec();
+        const invites = await Invite.find({ to: userId }).exec();
         // Подготовка данных для ответа
         if(!invites) {
             return undefined;
@@ -32,8 +32,6 @@ class InviteService {
             status: INVITE_STATUS.PENDING,
             createdAt: new Date()
         });
-        console.log(INVITE_STATUS);
-        console.log(newInvite);
         const createInvite = await newInvite.save();
         
         return createInvite !== null 
@@ -53,7 +51,6 @@ class InviteService {
             status: status,
             createdAt: invite.createdAt
         };
-        inviteData.status = status;
         const isUpdate = (await Invite.updateOne({ _id: inviteId }, inviteData)).modifiedCount;
         return isUpdate === 1 
                ? await this.prepareResponseData({ _id: inviteId, ...inviteData }) 
