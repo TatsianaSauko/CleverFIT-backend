@@ -41,11 +41,35 @@ class InviteService {
                : undefined;
     }
 
+    async updateStatusInvite(inviteId, status) {
+        const invite = (await this.getInviteById(inviteId))[0];
+        if (!invite) {
+            return  undefined;
+        };
+        const inviteData = {
+            from: invite.from,
+            to: invite.to,
+            trainingId: invite.trainingId,
+            status: status,
+            createdAt: invite.createdAt
+        };
+        inviteData.status = status;
+        const isUpdate = (await Invite.updateOne({ _id: inviteId }, inviteData)).modifiedCount;
+        return isUpdate === 1 
+               ? await this.prepareResponseData({ _id: inviteId, ...inviteData }) 
+               : undefined;
+    }
+
     async removeInvite(inviteId) {
         const isDeleted = (await Invite.deleteOne({ _id: inviteId })).deletedCount;
         return isDeleted === 1 ? isDeleted : undefined;
     }
 
+    async getInviteById(inviteId) {
+        const invite = await Invite.find({ _id: inviteId });
+        return invite !== null ? invite : undefined;
+    }
+    
     async prepareResponseData({ _id, from, to, trainingId, status, createdAt }) {
     
         const userTo = await userService.module.getUserDataService(to);
