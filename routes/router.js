@@ -39,6 +39,8 @@ router.post('/change-password', UserController.changePassword); // Маршру�
 router.put('/', authenticateToken, UserController.updateUserData); // Маршрут для обновления данных пользователя
 
 router.get('/invite', authenticateToken, limiter, catchErrors(InviteController.getAllInvites));
-router.post('/invite', authenticateToken, limiter, catchErrors(InviteController.createInvite)); 
+router.post('/invite', authenticateToken, limiter, catchErrors(InviteController.createInvite));
+router.put('/invite', authenticateToken, limiter, catchErrors(InviteController.updateStatusInvite));
+router.delete('/invite/:inviteId', authenticateToken, limiter, catchErrors(InviteController.removeInvite)); 
 
 module.exports = router;

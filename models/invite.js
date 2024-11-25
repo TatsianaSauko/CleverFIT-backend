@@ -28,7 +28,8 @@ const InviteSchema = new Schema(
        },
       status: {
         type: String,
-        default: INVITE_STATUS.PENDING },
+        default: INVITE_STATUS.PENDING,
+        required: true },
       createdAt: {
         type: Date,
         required: true },
