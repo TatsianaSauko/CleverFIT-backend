@@ -12,7 +12,7 @@ class InviteController {
     if (!invites) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }  
-    return res.status(invites.statusCode).json(invites.data);
+    return res.status(StatusCodes.OK).send(invites);
   }
 
   async createInvite(req, res, next) {  
@@ -26,7 +26,7 @@ class InviteController {
     if (!createInvite) {
       throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
     }
-    return res.status(createInvite.statusCode).send(createInvite.data);
+    return res.status(StatusCodes.OK).send(createInvite);
   }
 
   async removeInvite(req, res, next) {
@@ -37,5 +37,6 @@ class InviteController {
     }
     res.status(StatusCodes.NO_CONTENT).send({});
   }
+
 }
 module.exports = new InviteController();
