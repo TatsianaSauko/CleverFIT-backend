@@ -29,6 +29,16 @@ class InviteController {
     return res.status(StatusCodes.OK).send(createInvite);
   }
 
+  async updateStatusInvite(req, res, next) {
+    const { inviteId, status  } = req.body; 
+    const updateInvite = await inviteService.module.updateStatusInvite(inviteId, status);
+    // Проверка результата
+    if (!updateInvite) {
+      throw new ErrorHandler(StatusCodes.BAD_REQUEST, ERRORS.BAD_REQUEST);
+    }
+    res.status(StatusCodes.OK).send(updateInvite);
+  }
+  
   async removeInvite(req, res, next) {
     const removeInvite = await inviteService.module.removeInvite(req.params.inviteId);
     // Проверка результата
