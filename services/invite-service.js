@@ -32,8 +32,6 @@ class InviteService {
             status: INVITE_STATUS.PENDING,
             createdAt: new Date()
         });
-        console.log(INVITE_STATUS);
-        console.log(newInvite);
         const createInvite = await newInvite.save();
         
         return createInvite !== null 
